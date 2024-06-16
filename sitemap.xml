@@ -2,11 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://shivkar2n.github.io/blog/</loc>
+    <lastmod>2024-06-15T15:52:35+05:30</lastmod>
+  </url><url>
+    <loc>https://shivkar2n.github.io/blog/2024-06-15t155235/</loc>
+    <lastmod>2024-06-15T15:52:35+05:30</lastmod>
+  </url><url>
+    <loc>https://shivkar2n.github.io/</loc>
+    <lastmod>2024-06-15T15:52:35+05:30</lastmod>
+  </url><url>
     <loc>https://shivkar2n.github.io/about/</loc>
   </url><url>
     <loc>https://shivkar2n.github.io/categories/</loc>
-  </url><url>
-    <loc>https://shivkar2n.github.io/</loc>
   </url><url>
     <loc>https://shivkar2n.github.io/tags/</loc>
   </url>

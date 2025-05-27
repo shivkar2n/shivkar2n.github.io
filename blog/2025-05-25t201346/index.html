@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Using Rustdesk with Tailscale // Shiv Karthik</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.128.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Shiv Karthik" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="/css/main.min.4e034f9d3e9738eb0fabdf9bff790e2b3aa528281d52800f868d1ee1dc7309f6.css" />
+    
+
+    
+  
+
+
+    
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Using Rustdesk with Tailscale">
+  <meta name="twitter:description" content="I have a Steam Deck and a Lenovo Ideapad running SteamOS and Debian. I mostly use Debian for devlopement. So I’d like to remote desktop into my Laptop from the steam deck. I’ll be using RustDesk and Tailscale. This post will focus on configuring RustDesk and setting up the relay server on the laptop.
+Requirements Tailscale should be configured on both machines. Docker should be installed for the relay server Setting up client Machines Make sure to get the version depending on your distro from the releases page.">
+
+    <meta property="og:url" content="https://shivkar2n.github.io/blog/2025-05-25t201346/">
+  <meta property="og:site_name" content="Shiv Karthik">
+  <meta property="og:title" content="Using Rustdesk with Tailscale">
+  <meta property="og:description" content="I have a Steam Deck and a Lenovo Ideapad running SteamOS and Debian. I mostly use Debian for devlopement. So I’d like to remote desktop into my Laptop from the steam deck. I’ll be using RustDesk and Tailscale. This post will focus on configuring RustDesk and setting up the relay server on the laptop.
+Requirements Tailscale should be configured on both machines. Docker should be installed for the relay server Setting up client Machines Make sure to get the version depending on your distro from the releases page.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-05-25T20:13:46+05:30">
+    <meta property="article:modified_time" content="2025-05-25T20:13:46+05:30">
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="/"><img class="app-header-avatar" src="/avatar.jpg" alt="Shiv Karthik" /></a>
+      <span class="app-header-title">Shiv Karthik</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/about/">About</a>
+             * 
+          
+          <a class="app-header-menu-item" href="/blog/">Blog</a>
+             * 
+          
+          <a class="app-header-menu-item" href="https://drive.google.com/file/d/1gPLbrX2KUbAK9POLPq-9D38RiglF2BcB/view?usp=drive_link">Resume</a>
+      </nav>
+      <p>Nerd, Programmer, Linux Lover</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/shivkar2n" target="_blank" rel="noreferrer noopener me">
+            <svg class="icon icon-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>github</title><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+          </a>
+        
+          <a href="https://www.instagram.com/shi.vk07" target="_blank" rel="noreferrer noopener me">
+            <svg class="icon icon-instagram" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>instagram</title><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </a>
+        
+          <a href="https://www.linkedin.com/in/shiv-karthik-291887223" target="_blank" rel="noreferrer noopener me">
+            <svg class="icon icon-linkedin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>linkedin</title><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+          </a>
+        
+          <a href="https://shivkar2n.github.io/blog/index.xml" target="_blank" rel="noreferrer noopener me">
+            <svg class="icon icon-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>rss</title><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Using Rustdesk with Tailscale</h1>
+      <div class="post-meta">
+        <div>
+          <svg class="icon icon-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>calendar</title><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          May 25, 2025
+        </div>
+        <div>
+          <svg class="icon icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>clock</title><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          3 min read
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>I have a Steam Deck and a Lenovo Ideapad running SteamOS and Debian. I mostly use Debian for devlopement. So I&rsquo;d like to remote desktop into my Laptop from the steam deck. I&rsquo;ll be using <a href="https://github.com/rustdesk/rustdesk">RustDesk</a> and <a href="https://tailscale.com/">Tailscale</a>. This post will focus on configuring RustDesk and setting up the relay server on the laptop.</p>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>Tailscale should be configured on both machines.</li>
+<li><a href="https://docs.docker.com/engine/install/">Docker</a> should be installed for the relay server</li>
+</ul>
+<h3 id="setting-up-client-machines">Setting up client Machines</h3>
+<p>Make sure to get the version depending on your distro from the releases <a href="https://github.com/rustdesk/rustdesk/releases/">page</a>.</p>
+<p>SteamOS is a flavour of Arch KDE. So I just downloaded RustDesk from the KDE store.</p>
+<p><img src="/kdestore.png" alt="kdestore"></p>
+<p>For my laptop running Debian 12 bookworm I installed the <code>.deb</code> package file and am using RustDesk v1.4.0 on both machines.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://github.com/rustdesk/rustdesk/releases/download/1.4.0/rustdesk-1.4.0-aarch64.deb
+</span></span><span style="display:flex;"><span>sudo apt install ./rustdesk-1.4.0-x86_64.deb   
+</span></span></code></pre></div><h3 id="configuring-the-relay-server">Configuring the relay server</h3>
+<p>In this setup one machine wil be running the Rustdesk client and server simultaneously. This will be my Lenovo Ideapad.</p>
+<p>Create a directory and <code>docker-compose.yml</code> file and paste the example from the rustdesk <a href="https://rustdesk.com/docs/en/self-host/rustdesk-server-oss/docker/">page</a> into the compose file and run the container</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir rustdesk
+</span></span><span style="display:flex;"><span>cd ./rustdesk 
+</span></span><span style="display:flex;"><span>touch docker-compose.yml
+</span></span><span style="display:flex;"><span>docker compose up -d
+</span></span></code></pre></div><p>You should see two containers running</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>shivkar2n@lenovo-s540-ideapad Desktop docker ps -a  
+</span></span><span style="display:flex;"><span>CONTAINER ID   IMAGE                             COMMAND   CREATED        STATUS       PORTS     NAMES
+</span></span><span style="display:flex;"><span>a6ce1472869a   rustdesk/rustdesk-server:latest   <span style="color:#e6db74">&#34;hbbs&#34;</span>    <span style="color:#ae81ff">24</span> hours ago   Up <span style="color:#ae81ff">5</span> hours             hbbs
+</span></span><span style="display:flex;"><span>e79c11ecf875   rustdesk/rustdesk-server:latest   <span style="color:#e6db74">&#34;hbbr&#34;</span>    <span style="color:#ae81ff">24</span> hours ago   Up <span style="color:#ae81ff">5</span> hours             hbbr
+</span></span><span style="display:flex;"><span>shivkar2n@lenovo-s540-ideapad Desktop 
+</span></span></code></pre></div><p>A public key will be created in the container directory.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>shivkar2n@lenovo-s540-ideapad rustdesk tree
+</span></span><span style="display:flex;"><span>.
+</span></span><span style="display:flex;"><span>├── data
+</span></span><span style="display:flex;"><span>│   ├── db_v2.sqlite3
+</span></span><span style="display:flex;"><span>│   ├── db_v2.sqlite3-shm
+</span></span><span style="display:flex;"><span>│   ├── db_v2.sqlite3-wal
+</span></span><span style="display:flex;"><span>│   ├── id_ed25519
+</span></span><span style="display:flex;"><span>│   └── id_ed25519.pub
+</span></span><span style="display:flex;"><span>└── docker-compose.yml
+</span></span></code></pre></div><p>The client by default uses port <code>21118</code>. Go to <code>Settings &gt; Security</code> configure it to use a different port since the server will be using port range 21114-21119. Make sure that direct IP access is enabled and configure a permanant password.
+<img src="/relayserver.png" alt="relayserver"></p>
+<p>Then open ports 21114-21120 using the firewall. In my case that&rsquo;s <code>ufw</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo ufw allow &lt;PORT_NO&gt;   
+</span></span></code></pre></div><p>Now get the Tailscale IP of the relay server, for me this is my Lenovo Ideapad.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">(</span>deck@steamdeck ~<span style="color:#f92672">)</span>$ sudo tailscale status
+</span></span><span style="display:flex;"><span>100.64.234.117  steamdeck            shivkar2n@   linux   -
+</span></span><span style="display:flex;"><span>100.127.50.92   lenovo-s540-ideapad  shivkar2n@   linux   active; direct 192.168.29.50:41641, tx <span style="color:#ae81ff">35948000</span> rx <span style="color:#ae81ff">119564256</span>
+</span></span><span style="display:flex;"><span>100.119.246.82  raspberrypi          shivkar2n@   linux   offline
+</span></span><span style="display:flex;"><span>100.64.203.12   xiaomi-m2101k6i      shivkar2n@   android offline
+</span></span></code></pre></div><p>Go to Settings &gt; Network &gt; ID/Relay Server. I&rsquo;ll be using the above IP of my Lenovo S540 Ideapad as the ID and relay server. Paste the contents of the <code>id_ed25519.pub</code> as the key and repeat the same steps on the Steam Deck.</p>
+<p><img src="/relayserver_keysetup.png" alt="relayserver_keysetup"></p>
+<p>After that I just connect to the Lenovo using its Desktop ID and remote login from my Steam Deck.
+<img src="/result.gif" alt="result"></p>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

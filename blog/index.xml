@@ -4,10 +4,17 @@
     <title>Blogs on Shiv Karthik</title>
     <link>https://shivkar2n.github.io/blog/</link>
     <description>Recent content in Blogs on Shiv Karthik</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 15 Jun 2024 15:52:35 +0530</lastBuildDate>
+    <lastBuildDate>Sun, 25 May 2025 20:13:46 +0530</lastBuildDate>
     <atom:link href="https://shivkar2n.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Using Rustdesk with Tailscale</title>
+      <link>https://shivkar2n.github.io/blog/2025-05-25t201346/</link>
+      <pubDate>Sun, 25 May 2025 20:13:46 +0530</pubDate>
+      <guid>https://shivkar2n.github.io/blog/2025-05-25t201346/</guid>
+      <description>I have a Steam Deck and a Lenovo Ideapad running SteamOS and Debian. I mostly use Debian for devlopement. So I&amp;rsquo;d like to remote desktop into my Laptop from the steam deck. I&amp;rsquo;ll be using RustDesk and Tailscale. This post will focus on configuring RustDesk and setting up the relay server on the laptop.&#xA;Requirements Tailscale should be configured on both machines. Docker should be installed for the relay server Setting up client Machines Make sure to get the version depending on your distro from the releases page.</description>
+    </item>
     <item>
       <title>Learning to program through emulation</title>
       <link>https://shivkar2n.github.io/blog/2024-06-15t155235/</link>
